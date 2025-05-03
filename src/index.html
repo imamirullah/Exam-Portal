@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uncodemy Layout Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            color: #111827;
+            line-height: 1.6;
+        }
+
+        .header-home-880p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo-home-880p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #800080;
+        }
+
+        
+
+        .actions-home-880p {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-home-880p {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-outline-home-880p {
+            border-color: #d1d5db;
+            background-color: white;
+            color: #374151;
+        }
+
+        .btn-outline-home-880p:hover {
+            background-color: #f3f4f6;
+        }
+
+        .btn-primary-home-880p {
+            background-color: #a855f7;
+            color: white;
+        }
+
+        .btn-primary-home-880p:hover {
+            background-color: #9333ea;
+        }
+
+        .hero-home-880p {
+            background-color: #f3e8ff;
+            padding: 4rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-text-home-880p {
+            max-width: 600px;
+        }
+
+        .hero-text-home-880p h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-text-home-880p p {
+            font-size: 1.125rem;
+            color: #4b5563;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-image-home-880p img {
+            max-width: 300px;
+            height: auto;
+        }
+
+        .info-section-home-880p {
+            background-color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .info-section-home-880p h2 {
+            font-size: 1.75rem;
+            color: #4b0082;
+            margin-bottom: 1rem;
+        }
+
+        .info-section-home-880p p {
+            max-width: 750px;
+            margin: 0 auto;
+            font-size: 1.125rem;
+            color: #374151;
+        }
+
+        @media (max-width: 768px) {
+            .hero-home-880p {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-image-home-880p {
+                margin-top: 2rem;
+            }
+        }
+
+
+        .info-section-home-880p {
+            padding: 60px 20px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .info-section-home-880p .text-block-home-880p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .info-section-home-880p .btn-purple-home-880p {
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: #8844cc;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .feature-section-home-880p {
+            background-color: #50175d;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .feature-section-home-880p h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-section-home-880p .subtext-home-880p {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .feature-grid-home-880p {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .feature-img-home-880p {
+            max-width: 180px;
+        }
+
+        .feature-text-home-880p {
+            max-width: 500px;
+            text-align: left;
+        }
+
+        .feature-text-home-880p h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-text-home-880p p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .section-common {
+  padding: 40px 20px;
+  text-align: center;
+}
+        .quiz-intro-home-880p {
+  background-color: #fff;
+}
+
+.quiz-intro-home-880p button {
+  background-color: #9B5DE5;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.multiply-growth-home-880p {
+  background-color: #5B2C6F;
+  color: white;
+}
+
+.growth-content-home-880p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.growth-content-home-880p img {
+  width: 200px;
+}
+
+.grading-home-880p {
+  background-color: #5B2C6F;
+  color: white;
+}
+
+.grading-content-home-880p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.grading-content-home-880p img {
+  width: 200px;
+}
+
+.grading-home-880p button {
+  background-color: white;
+  color: #5B2C6F;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.highlight-home-880p {
+  color: orange;
+  font-weight: bold;
+}
+
+.assessment-home-880p {
+  background-color: #222;
+  color: white;
+}
+
+.assessment-content-home-880p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  text-align: left;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.assessment-content-home-880p img {
+  width: 300px;
+  border-radius: 12px;
+}
+
+.assessment-home-880p button {
+  background-color: #D9C3F8;
+  color: #000;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.footer-main {
+  background-color: #fff;
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+.footer-content-home-880p {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footer-col-home-880p {
+  flex: 1 1 200px;
+  margin: 10px;
+}
+
+.footer-col-home-880p ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col-home-880p li {
+  margin-bottom: 8px;
+}
+
+.store-links-home-880p img {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.copyright-home-880p {
+  text-align: center;
+  padding-top: 20px;
+  font-size: 13px;
+  color: #666;
+}
+
+/* General Container and Grid */
+.container-home-880p {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.grid-home-880p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+.grid-home-880p.reverse-home-880p {
+  flex-direction: row-reverse;
+}
+
+/* Section Titles & Text */
+.section-title-home-880p {
+  font-size: 2.2rem;
+  color: #4c1d95;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-description-home-880p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #333;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Image Placeholders */
+.mcq-image-home-880p {
+  flex: 1 1 45%;
+  min-height: 200px;
+  background-color: #f3f4f6;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 10px; /* optional for spacing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mcq-image-home-880p img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px; /* optional for rounded image corners */
+}
+
+/* Content Blocks */
+.mcq-content-home-880p {
+  flex: 1 1 50%;
+}
+
+.mcq-content-home-880p h3 {
+  font-size: 1.6rem;
+  color: #6d28d9;
+  margin-bottom: 0.5rem;
+}
+
+.mcq-content-home-880p p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Call to Action Section */
+.mcq-cta-home-880p {
+  text-align: center;
+  padding: 2rem 0;
+  background-color: #ede9fe;
+}
+
+.create-quiz-button-home-880p {
+  background-color: #7c3aed;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.create-quiz-button-home-880p:hover {
+  background-color: #6b21a8;
+}
+#admin-btn{
+  display: none;
+}
+@keyframes fade-in {
+              from {
+                opacity: 0;
+                transform: scale(0.95);
+              }
+              to {
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+            .animate-fade-in {
+              animation: fade-in 0.5s ease-out;
+            }
+          
+
+    </style>
+           
+       
+</head>
+
+<body>
+    <header class="header-home-880p">
+        <div class="logo-home-880p">Uncodemy</div>
+      
+        <div class="actions-home-880p">
+          <button id="admin-btn" class="btn-home-880p btn-outline-home-880p">Admin</button>
+          <button id="authBtn" onclick="handleAuthClick()" class="btn-home-880p btn-primary-home-880p">Login</button>
+        </div>
+    </header>
+
+
+ <!-- Modal Overlay -->
+ <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 ">
+  <!-- Modal Content -->
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative animate-fade-in">
+    <!-- Close Button -->
+    <button onclick="toggleModal(false)" class="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl">
+      &times;
+    </button>
+
+    <!-- Modal Header -->
+     <div class="flex justify-center items-center ">
+    <img class="" width="250px" src="https://static.vecteezy.com/system/resources/thumbnails/021/492/931/small_2x/examination-paper-illustration-with-online-exam-form-papers-answers-survey-or-internet-quiz-in-flat-cartoon-hand-drawn-for-landing-page-templates-vector.jpg" alt="">
+     </div>
+    <!-- Form -->
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Name</label>
+        <input type="text" id="name" required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Email</label>
+        <input type="email" id="email" required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Phone Number</label>
+        <input type="tel" id="phone" required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div class="text-center">
+        <button id="submitBtnLogin" type="submit"
+          class="w-full mt-2 bg-violet-600 text-white py-2 rounded-lg hover:bg-violet-700 transition duration-300">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ....................banner section.................... -->
+    <section  class="hero-home-880p section-common">
+        <div class="hero-text-home-880p">
+            <h1>Multiple Choice Questions</h1>
+            <p>Use multiple choice questions on Uncodemy to create online quizzes and games for free!</p> 
+            <button id="startBtn"
+                class="btn-home-880p btn-primary-home-880p">Go to the Quiz</button>
+        </div>
+        <div class="hero-image-home-880p"> <img src="img/63a3e5fcdf36e16397e5d40d_Personalise instruction - student engagement-p-500.webp" alt="Quiz Image" />
+        </div>
+    </section>
+
+    <!-- ......................terms and condition modal.......... -->
+     <!-- Modal -->
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center ">
+  <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl relative transition-all duration-300 ease-in-out animate-fade-in">
+
+    <!-- Progress Bar -->
+    <div class="w-full mb-4">
+      <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div id="progressBar" class="h-full bg-violet-600 transition-all duration-300" style="width: 33%;"></div>
+      </div>
+    </div>
+
+    <!-- Steps Container -->
+    <div class="h-[400px] flex flex-col justify-between">
+
+      <!-- Step 1 -->
+      <div id="step1" class="step flex flex-col justify-between h-full">
+        <div>
+          <h2 class="text-2xl font-semibold text-violet-800 mb-4"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</h2>
+          <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1 max-h-48 leading-relaxed pr-2">
+            <li><strong>Do not use unfair means during the exam.</strong></li>
+            <li><strong>Camera and microphone access is mandatory.</strong></li>
+            <li><strong>Keep your internet connection stable.</strong></li>
+            <li><strong>Do not switch tabs or open other apps during the exam.</strong></li>
+            <li><strong>If time runs out, the exam will be automatically submitted.</strong></li>
+            <li><strong>Do not reload or close the exam window.</strong></li>
+            <li><strong>Technical issues should be reported instantly.</strong></li>
+            <li><strong>Use only one device for the exam.</strong></li>
+            <li><strong>Complete the exam within the given time.</strong></li>
+            <li><strong>Violation of rules may lead to disqualification.</strong></li>
+          </ul>
+          
+          
+          <label class="flex items-end gap-2 text-sm text-gray-700 mt-20">
+            <input type="checkbox" id="acceptTerms" class="accent-violet-600 w-4 h-4"><strong>
+            I accept the terms & conditions</strong>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="step2" class="step hidden flex flex-col justify-between h-full">
+        <div>
+          <h2 class="text-2xl font-semibold text-violet-800 mb-4"><i class="fa-solid fa-shield-halved"></i> Allow Permissions</h2>
+          <p class="text-sm text-gray-600 mb-2">Please allow access to your camera and microphone to proceed.</p>
+          <div id="permissionStatus" class="text-sm text-gray-500 italic">Waiting for your permission...</div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div id="step3" class="step hidden flex flex-col justify-between h-full">
+        <div>
+          <h2 class="text-2xl font-semibold text-violet-800 mb-4"><i class="fa-solid fa-circle-check"></i> You're All Set!</h2>
+          <p class="text-md text-gray-600">All permissions are granted. Click below to start your exam.</p>
+          <ul class="list-disc mt-2 pl-5 text-sm text-gray-600 space-y-1 max-h-48 leading-relaxed pr-2">
+            <li><strong>⚠ First tab switch will be recorded as a warning.</strong></li>
+            <li><strong>❌ On second tab switch, your exam will be automatically submitted.</strong></li>
+            <li><strong>Turning off camera or microphone during the exam will lead to disqualification.</strong></li>
+            <li><strong>No external help or communication allowed.</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="flex justify-between items-center pt-4 border-t mt-4">
+        <button onclick="closeModal()" class="bg-violet-600 text-white text-sm font-medium px-5 py-2 rounded-md shadow-md transition duration-200 hover:bg-violet-700">
+         Cancel
+        </button>
+        <button id="nextBtn" class="bg-violet-600 text-white text-sm font-medium px-5 py-2 rounded-md shadow-md transition duration-200 hover:bg-violet-700 disabled:opacity-50" disabled>
+          Next
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- .....................info saction............ -->
+    <section class="info-section-home-880p section-common">
+        <h2>Multiply the joy of learning with MCQs</h2>
+        <p> MCQs, or multiple choice questions, provide a fresh and interactive way for students to apply their
+            knowledge. These questions are ideal for a variety of subjects, including math, science, and even social
+            studies. </p>
+    <br>
+        <div class="text-block-home-880p">
+            <p>MCQs, or multiple choice questions, provide a fresh and interactive way for students to apply their
+                knowledge. These questions are ideal for a variety of subjects, including math, science, and even social
+                studies.</p>
+            <p>One of the biggest advantages of using MCQ tests in the classroom is that they’re quick and easy to
+                grade. With multiple choice questions, you can effortlessly assess your students’ understanding of what
+                they've learnt, without spending hours tallying scores.</p> <button class="btn-purple">Go to the Quiz</button>
+        </div>
+    </section>
+    <section class="feature-section-home-880p section-common">
+        <h2>Multiply growth with MCQs on Uncodemy</h2>
+        <p class="subtext-home-880p">With Uncodemy, you can take online multiple choice questions a step further with —</p>
+        <div class="feature-grid-home-880p"> <img src="img/642bcd020cb4a535773c598f_ezgif.com-resize (4).webp" alt="Funny cartoon" class="feature-img" />
+            <div class="feature-text-home-880p">
+                <h3>Multiple answer options</h3>
+                <p>Add up to 5 answer options for each multiple choice question in your quiz. Give students the option
+                    to select more than one right answer.</p>
+            </div>
+        </div>
+    </section>
+
+ <!-- Section: MCQ Benefits Overview -->
+<section class="mcq-overview-home-880p section-common">
+    <div class="container-home-880p">
+      <h2 class="section-title-home-880p">Multiply engagement with MCQs</h2>
+      <p class="section-description-home-880p">
+        Multiple choice questions offer several possible answer options, encouraging critical thinking.
+      </p>
+    </div>
+  </section>
+  
+  <!-- Section: Encouraging Participation -->
+  <section class="mcq-participation-home-880p section-common">
+    <div class="container-home-880p grid-home-880p">
+      <div class="mcq-image-home-880p">
+        <img src="img/12.webp" alt="grading image">
+      </div>
+      <div class="mcq-content-home-880p">
+        <h3>Encouraging participation</h3>
+        <p>
+          MCQs help learners identify correct answers from options, supporting participation and prompting thought.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Section: Gamifying Lessons -->
+  <section class="mcq-gamification-home-880p section-common">
+    <div class="container-home-880p grid-home-880p reverse-home-880p">
+      <div class="mcq-image-home-880p">
+        <img src="img/22.webp" alt="grading image">
+      </div>
+      <div class="mcq-content-home-880p">
+        <h3>Gamifying lessons</h3>
+        <p>
+          Turn regular lessons into contests, ice breakers, or team games. Add music, memes, and leaderboards to enhance learning.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Section: Formative Assessments -->
+  <section class="mcq-assessment-home-880p section-common">
+    <div class="container-home-880p grid-home-880p">
+      <div class="mcq-image-home-880p">
+        <img src="img/33.webp" alt="grading image">
+      </div>
+      <div class="mcq-content-home-880p">
+        <h3>Formative assessments</h3>
+        <p>
+          MCQs are ideal for low-stakes evaluations and reduce test anxiety while assessing student understanding.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Section: Entry and Exit Tickets -->
+  <section class="mcq-entry-exit-home-880p section-common">
+    <div class="container-home-880p grid-home-880p reverse-home-880p">
+      <div class="mcq-image-home-880p">
+        <img src="img/44.webp" alt="grading image">
+      </div>
+      <div class="mcq-content-home-880p">
+        <h3>Entry and exit tickets</h3>
+        <p>
+          Use MCQs at the start or end of class to quickly assess what students have learned.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Section: CTA Button -->
+
+  
+
+  <!-- Section: Grade Manually -->
+  <section class="grading-home-880p section-common">
+    <div class="grading-content-home-880p">
+      <img src="img/grad.webp" alt="grading image">
+      <div>
+        <h3>Grade manually or automatically</h3>
+        <p>Grade higher-order thinking responses <span class="highlight-home-880p">manually</span> by assigning a scaled grade for each question. Or, let Uncodemy take care of it with automated scores.</p>
+      
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Create Assessments -->
+  <section class="assessment-home-880p section-common">
+    <div class="assessment-content-home-880p">
+      <div>
+        <p>The best way to ask questions, explore ideas, and let students show what they know.</p>
+        <h3>Use Uncodemy to create assessments</h3>
+  
+      </div>
+      <img src="img/student.webp" alt="students image">
+    </div>
+  </section>
+
+    <footer class="footer-main">
+        <div class="footer-content-home-880p">
+          <div class="footer-col-home-880p">
+            <h4>Uncodemy</h4>
+            <ul>
+              <li>The Uncodemy Blog</li>
+              <li>Teacher Resources</li>
+              <li>Certified Educators</li>
+              <li>State Test Prep</li>
+              <li>Uncodemy for Work</li>
+            </ul>
+          </div>
+          <div class="footer-col-home-880p">
+            <ul>
+              <li>Help Center</li>
+              <li>Teacher Panel</li>
+              <li>IQAPS</li>
+              <li>AI Toolkit</li>
+              <li>Accessibility and Inclusion</li>
+            </ul>
+          </div>
+          <div class="footer-col-home-880p">
+            <ul>
+              <li>Worksheets</li>
+              <li>Reseller Program</li>
+              <li>Privacy Policy</li>
+              <li>Privacy Center</li>
+              <li>Careers</li>
+            </ul>
+          </div>
+          <div class="footer-col-home-880p">
+            <ul>
+              <li>Contact Support</li>
+              <li>About Us</li>
+              <li>Sitemap</li>
+              <li>Terms of Service</li>
+            </ul>
+            <div class="store-links">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" height="40"/>
+              <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" height="40"/>
+            </div>
+          </div>
+        </div>
+        <p class="copyright-home-880p">© 2024 Uncodemy Inc.</p>
+      </footer>
+
+      <script>
+
+        // ...............form modal Script........
+        const authBtn = document.getElementById("authBtn");
+        const loginModal = document.getElementById("loginModal");
+        const loginForm = document.getElementById("loginForm");
+    
+        function toggleModal(show) {
+          loginModal.classList.toggle("hidden", !show);
+        }
+    
+        function handleAuthClick() {
+  const isLoggedIn = localStorage.getItem("userEmail");
+
+  if (isLoggedIn) {
+    // Logout
+    localStorage.removeItem("userEmail");
+    authBtn.textContent = "Login";
+
+    // Hide Admin button on logout
+    document.getElementById("admin-btn").style.display = "none"; // Hide Admin Button
+  } else {
+    // Show login modal
+    toggleModal(true);
+  }
+}
+
+    
+        // loginForm.addEventListener("submit", function (e) {
+        //   e.preventDefault();
+    
+        //   const name = document.getElementById("name").value;
+        //   const email = document.getElementById("email").value;
+        //   const phone = document.getElementById("phone").value;
+    
+        //   const userData = {
+        //     name,
+        //     email,
+        //     phone
+        //   };
+    
+        //   localStorage.setItem("userData", JSON.stringify(userData));
+    
+        //   authBtn.textContent = "Logout";
+        //   toggleModal(false);
+    
+        //   // Optionally clear the form
+        //   loginForm.reset();
+        // });
+    
+        // On page load, check if user is already logged in
+    
+      </script>
+       <script>
+        // .....................terms and condition modal script............
+        const modal = document.getElementById("modal");
+        const startBtn = document.getElementById("startBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const acceptTerms = document.getElementById("acceptTerms");
+        const permissionStatus = document.getElementById("permissionStatus");
+        const steps = document.querySelectorAll(".step");
+        const progressBar = document.getElementById("progressBar");
+      
+        let currentStep = 0;
+        let stream = null;
+      
+        const progressPercent = [33, 66, 100]; // Corresponding widths for steps
+      
+        startBtn.addEventListener("click", () => {
+          const userData = localStorage.getItem("userEmail");
+      
+          if (userData) {
+            modal.classList.remove("hidden");
+            currentStep = 0;
+            showStep(currentStep);
+            updateProgress(currentStep);
+            nextBtn.textContent = "Next";
+            nextBtn.disabled = true;
+          } else {
+            toggleModal(true); // Your login modal trigger
+          }
+        });
+      
+        acceptTerms.addEventListener("change", () => {
+          nextBtn.disabled = !acceptTerms.checked;
+        });
+      
+        function showStep(index) {
+          steps.forEach((step, i) => {
+            step.classList.toggle("hidden", i !== index);
+          });
+          updateProgress(index);
+        }
+      
+        function updateProgress(stepIndex) {
+          progressBar.style.width = progressPercent[stepIndex] + "%";
+        }
+      
+        function closeModal() {
+          modal.classList.add("hidden");
+          nextBtn.disabled = true;
+          acceptTerms.checked = false;
+          permissionStatus.textContent = "Waiting for your permission...";
+          currentStep = 0;
+          showStep(currentStep);
+          updateProgress(currentStep);
+          nextBtn.textContent = "Next";
+      
+          // Stop camera & mic
+          if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            stream = null;
+          }
+        }
+      
+        nextBtn.addEventListener("click", async () => {
+          if (currentStep === 0) {
+            currentStep++;
+            showStep(currentStep);
+            nextBtn.disabled = true;
+      
+            try {
+              stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+              permissionStatus.textContent = "✅ Permission granted!";
+              nextBtn.disabled = false;
+            } catch (e) {
+              permissionStatus.textContent = "❌ Permission denied. Please allow camera and mic.";
+            }
+      
+          } else if (currentStep === 1) {
+            currentStep++;
+            showStep(currentStep);
+            nextBtn.textContent = "Start Now";
+            nextBtn.disabled = false;
+      
+          } else if (currentStep === 2) {
+            sessionStorage.setItem("cameraMicAllowed", "true");
+            closeModal();
+            window.location.replace("examStart.html");
+          }
+        });
+      </script>
+      <script>
+       document.getElementById("loginForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+
+  if (!name || !email || !phone) {
+    Swal.fire("Error", "Please fill all the fields", "error");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:5000/api/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name, email, phone })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem("userEmail", email);
+      Swal.fire("Success", data.message || "Login Successful!", "success");
+      document.getElementById("loginForm").reset();
+      authBtn.textContent = "Logout";
+      toggleModal(false);
+
+      // Check if the logged-in email is admin and show the admin button
+      if (email.toLowerCase() === "adminuncodemy@gmail.com") {
+        document.getElementById("admin-btn").style.display = "inline-block"; // Show Admin Button
+      }
+    } else {
+      // API responded with error status (like 400 or 500)
+      Swal.fire("Error", data.error || "Something went wrong!", "error");
+    }
+  } catch (error) {
+    // Network error or server down
+    Swal.fire("Error", "Server not responding or network issue", "error");
+    console.error("Fetch error:", error);
+    toggleModal(false);
+  }
+});
+
+
+        window.addEventListener("DOMContentLoaded", () => {
+          if (localStorage.getItem("userEmail")) {
+            authBtn.textContent = "Logout";
+          }
+        });
+
+
+// ✅ Admin Button Show/Hide on Page Load
+window.addEventListener("DOMContentLoaded", function () {
+  const adminBtn = document.getElementById("admin-btn");
+  const userEmail = localStorage.getItem("userEmail");
+
+  if (userEmail && userEmail.toLowerCase() === "adminuncodemy@gmail.com") {
+    adminBtn.style.display = "inline-block";
+  } else {
+    adminBtn.style.display = "none";
+  }
+
+  // ✅ Admin Button Click = Go to admin.html
+  adminBtn.addEventListener("click", function () {
+    window.location.href = "adminPanel.html";
+  });
+});
+
+         
+      </script>
+
+</body>
+
+</html>

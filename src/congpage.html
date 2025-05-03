@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Congratulations</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #000;
+    }
+
+    #fireworksCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.7s ease-out;
+    }
+
+    .modal-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* z-index: 10; */
+    }
+
+    .modal {
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fireworksCanvas"></canvas>
+
+  <div class="modal-container">
+    <div class="modal bg-voilet-100 rounded-3xl shadow-2xl p-6 md:p-12 w-[95%] max-w-5xl flex flex-col md:flex-row items-center gap-6 animate-fade-in">
+      
+      <!-- Text Section -->
+      <div class="flex-1 text-center md:text-left">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-violet-900 mb-4">Congratulations!</h1>
+        <p class="text-base md:text-lg text-gray-600 mb-6"><strong>
+          You have successfully submitted your exam. Great job staying focused and committed!</strong>
+
+        </p>
+  
+        <!-- Key Points -->
+        <ul class="list-disc text-left text-gray-700 text-base space-y-2 pl-6">
+          <li>📌 <strong>Your responses have been recorded successfully.</strong></li>
+          <li>⏱️ <strong>You completed the exam within the allotted time.</strong></li>
+          <li>✅ <strong>All sections were submitted without any errors.</strong></li>
+          <li>📢 <strong>The results will be declared by your teacher shortly.</strong></li>
+          <li>💪 <strong>Keep learning and striving for improvement!</strong></li>
+          <li>🧠 <strong>Your dedication is truly appreciated.</strong></li>
+        </ul>
+        
+      </div>
+  
+      <!-- Image Section -->
+      <div class="flex-1">
+        <img src="/src/img/cong-img.png" 
+             alt="Success Image" 
+             class="w-full h-auto rounded-xl object-cover" />
+      </div>
+  
+    </div>
+  </div>
+  
+
+  <script>
+    function preventBackLoop() {
+      window.history.pushState({ noBack: true }, "", "");
+      window.history.pushState({ noBack: true }, "", "");
+    }
+
+    window.addEventListener("load", function () {
+      console.log("🔒 Back trap activated");
+      preventBackLoop();
+    });
+
+    window.addEventListener("popstate", function (event) {
+      if (event.state && event.state.noBack) {
+        console.log("⚠️ Back button detected - retrapping");
+        preventBackLoop();
+        Swal.fire({
+          icon: "warning",
+          title: "Back Not Allowed",
+          text: "You cannot go back from this page.",
+          confirmButtonText: "OK"
+        });
+      }
+    });
+  </script>
+
+  <script>
+    const canvas = document.getElementById("fireworksCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+
+    window.addEventListener("resize", resizeCanvas);
+
+    const random = (min, max) => Math.random() * (max - min) + min;
+
+    const getRandomColor = () => {
+      const hue = random(0, 360);
+      const saturation = random(70, 100);
+      const lightness = random(50, 70);
+      return { hue, color: `hsl(${hue}, ${saturation}%, ${lightness}%)` };
+    };
+
+    class Star {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = random(0, canvas.width);
+        this.y = random(0, canvas.height);
+        this.size = random(0.5, 1.5);
+        this.baseAlpha = random(0.3, 0.8);
+        this.alpha = this.baseAlpha;
+        this.twinkleSpeed = random(0.01, 0.03);
+        this.twinkleDirection = Math.random() < 0.5 ? 1 : -1;
+      }
+
+      update() {
+        this.alpha += this.twinkleSpeed * this.twinkleDirection;
+        if (this.alpha >= 1) {
+          this.alpha = 1;
+          this.twinkleDirection = -1;
+        } else if (this.alpha <= this.baseAlpha) {
+          this.alpha = this.baseAlpha;
+          this.twinkleDirection = 1;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = "white";
+        ctx.fill();
+        ctx.closePath();
+        ctx.restore();
+      }
+    }
+
+    class Firework {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = random(100, canvas.width - 100);
+        this.y = canvas.height;
+        this.speed = random(8, 12);
+        const angle = random((-5 * Math.PI) / 12, (-7 * Math.PI) / 12);
+        this.vx = Math.cos(angle) * this.speed * 1.5;
+        this.vy = Math.sin(angle) * this.speed * 1.5;
+        this.gravity = 0.025;
+        const colorObj = getRandomColor();
+        this.hue = colorObj.hue;
+        this.color = colorObj.color;
+        this.exploded = false;
+        this.particles = [];
+        this.targetY = random(canvas.height / 4, canvas.height / 2);
+        this.history = [];
+        this.maxHistory = 8;
+        this.done = false;
+      }
+
+      update() {
+        if (!this.exploded) {
+          this.vy += this.gravity;
+          this.x += this.vx + random(-0.1, 0.1);
+          this.y += this.vy;
+
+          this.history.push({ x: this.x, y: this.y });
+          if (this.history.length > this.maxHistory) {
+            this.history.shift();
+          }
+
+          if (this.vy >= 0 || this.y <= this.targetY) {
+            this.exploded = true;
+            this.explode();
+          }
+        }
+
+        this.particles.forEach((particle) => particle.update());
+        this.particles = this.particles.filter((particle) => !particle.done);
+
+        if (this.exploded && this.particles.length === 0) {
+          this.done = true;
+        }
+      }
+
+      explode() {
+        let explosionType;
+
+        if (
+          (this.hue >= 0 && this.hue <= 30) ||
+          (this.hue >= 330 && this.hue <= 360)
+        ) {
+          explosionType = "heart";
+        } else if (this.hue >= 90 && this.hue <= 150) {
+          explosionType = "greenStar";
+        } else {
+          explosionType = Math.random() < 0.5 ? "round" : "star";
+        }
+
+        const particleCountMap = {
+          round: { count: Math.floor(random(50, 80)), angleOffset: 0 },
+          star: { count: 30, angleOffset: Math.PI / 5 },
+          heart: { count: 60, angleOffset: 0 },
+          greenStar: { count: 60, angleOffset: 0 }
+        };
+
+        const { count: particleCount, angleOffset } = particleCountMap[
+          explosionType
+        ] || { count: 60, angleOffset: 0 };
+
+        if (explosionType === "greenStar") {
+          this.createStarParticles("green");
+        } else {
+          for (let i = 0; i < particleCount; i++) {
+            let angle;
+            let speed = random(4, 14);
+            if (explosionType === "round") {
+              angle = random(0, Math.PI * 2);
+            } else if (explosionType === "star") {
+              angle = (i / particleCount) * Math.PI * 2 + angleOffset;
+            } else if (explosionType === "heart") {
+              const t = (i / particleCount) * Math.PI * 2;
+              const x = 16 * Math.pow(Math.sin(t), 3);
+              const y = -(
+                13 * Math.cos(t) -
+                5 * Math.cos(2 * t) -
+                2 * Math.cos(3 * t) -
+                Math.cos(4 * t)
+              );
+              angle = Math.atan2(y, x);
+              speed = Math.sqrt(x * x + y * y) / 2.7;
+            }
+            this.particles.push(
+              new Particle(this.x, this.y, this.color, angle, speed, explosionType)
+            );
+          }
+        }
+      }
+
+      createStarParticles(color) {
+        const particleCount = 60;
+        for (let i = 0; i < particleCount; i++) {
+          const angle = (i / particleCount) * Math.PI * 2;
+          const speed = random(4, 10);
+          this.particles.push(
+            new Particle(
+              this.x,
+              this.y,
+              color === "green" ? "hsl(120, 100%, 50%)" : this.color,
+              angle,
+              speed,
+              "star"
+            )
+          );
+        }
+      }
+
+      draw() {
+        if (!this.exploded) {
+          ctx.save();
+          ctx.globalAlpha = 0.7;
+          this.history.forEach((point) => {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            ctx.closePath();
+          });
+          ctx.restore();
+
+          ctx.save();
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+          ctx.closePath();
+          ctx.restore();
+        }
+
+        this.particles.forEach((particle) => particle.draw());
+      }
+    }
+
+    class Particle {
+      constructor(
+        x,
+        y,
+        color,
+        angle = null,
+        speed = null,
+        explosionType = "round"
+      ) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.size = random(1, 2.5);
+        this.speed = speed !== null ? speed : random(4, 14);
+        this.angle = angle !== null ? angle : random(0, Math.PI * 2);
+        this.gravity = 0.05;
+        this.friction = 0.997;
+        this.opacity = 1;
+        this.done = false;
+        this.vx = Math.cos(this.angle) * this.speed;
+        this.vy = Math.sin(this.angle) * this.speed;
+        this.decay = random(0.015, 0.025);
+        this.history = [];
+        this.maxHistory = 1;
+        this.explosionType = explosionType;
+      }
+
+      update() {
+        this.history.push({ x: this.x, y: this.y });
+        if (this.history.length > this.maxHistory) {
+          this.history.shift();
+        }
+
+        const wind = 0.001;
+        this.vx += wind * (Math.random() - 0.5);
+
+        this.vx *= this.friction;
+        this.vy *= this.friction;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.opacity -= this.decay;
+
+        if (this.opacity <= 0.01) {
+          this.done = true;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity * 0.6;
+        ctx.beginPath();
+        if (this.history.length > 0) {
+          ctx.moveTo(this.history[0].x, this.history[0].y);
+          this.history.forEach((point) => ctx.lineTo(point.x, point.y));
+        } else {
+          ctx.moveTo(this.x, this.y);
+        }
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
+
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+        ctx.restore();
+      }
+    }
+
+    let fireworks = [];
+
+    const stars = [];
+
+    const starCount = 60;
+    for (let i = 0; i < starCount; i++) {
+      stars.push(new Star());
+    }
+
+    const createFirework = () => {
+      fireworks.push(new Firework());
+    };
+
+    for (let i = 0; i < 2; i++) {
+      setTimeout(() => createFirework(), i * 1000);
+    }
+
+    const drawBackground = () => {
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, "#001d3d");
+      gradient.addColorStop(0.3, "#0f3057");
+      gradient.addColorStop(0.6, "#1b4965");
+      gradient.addColorStop(1, "#274690");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    };
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      drawBackground();
+
+      stars.forEach((star) => {
+        star.update();
+        star.draw();
+      });
+
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.globalCompositeOperation = "lighter";
+
+      fireworks.forEach((firework) => firework.update());
+      fireworks.forEach((firework) => firework.draw());
+
+      if (Math.random() < 0.04) {
+        createFirework();
+      }
+
+      fireworks = fireworks.filter((firework) => !firework.done);
+    };
+
+    animate();
+
+    canvas.addEventListener("click", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const firework = new Firework();
+      firework.x = x;
+      firework.y = canvas.height;
+      firework.targetY = y;
+      fireworks.push(firework);
+    });
+  </script>
+</body>
+</html>

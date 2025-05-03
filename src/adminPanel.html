@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-yH+v+...==sha" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  .adminHeading-00{
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: #50175d;
+    /* color: #e88888; */
+  }
+  .filter-btn {
+    background-color: #c298ea;
+    color: black !important;
+  }
+
+  .filter-btn.active {
+    background-color: #50175d;
+    color: white !important;
+  }
+ 
+</style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Navbar / Buttons -->
+  <div class="flex  justify-center gap-4 py-4 bg-white shadow-md">
+    <button class="tab-btn px-4 py-2 rounded-md bg-[#50175d] text-white active" data-tab="all">All Questions</button>
+    <button class="tab-btn px-4 py-2 rounded-md bg-gray-300 text-black" data-tab="result">Result</button>
+    <button onclick="togglePopup(true)" class="px-4 py-2 rounded-md bg-gray-300">Add Question</button>
+    <button id="durationBtn" onclick="openDurationModal()" class="px-4 py-2 rounded-md bg-gray-300">
+      Loading...
+    </button>
+
+
+
+  </div>
+
+  <!-- Containers -->
+  <div class="container mx-auto mt-6 p-4">
+    <div id="all" class="tab-content"> 
+      <h2 class="adminHeading-00">All Question</h2>
+      <div class="flex gap-3 mb-4 px-6" id="filterButtons">
+        <button onclick="loadQuestions('all', this)" class="filter-btn active px-4 py-2 rounded text-white">All</button>
+        <button onclick="loadQuestions('mcq', this)" class="filter-btn px-4 py-2 rounded text-white">MCQ</button>
+        <button onclick="loadQuestions('theory', this)" class="filter-btn px-4 py-2 rounded text-white">Theory</button>
+      </div>
+      
+      
+      
+      <div id="questionContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        <!-- Cards will be injected here -->
+      </div>
+      </div>
+      
+    </div>
+
+    <div id="result" class="tab-content hidden"> 
+      <h2 class="adminHeading-00">All Students Result</h2>
+      <div class="sticky top-0 flex justify-center bg-white z-10 py-4">
+        <div class="relative w-full md:w-1/2">
+          <input 
+            type="text" 
+            id="filterInput" 
+            placeholder="Search by name, email, or phone..." 
+            class="w-full border-2 border-[#50175d] rounded-lg px-4 py-2 pr-12 focus:outline-none focus:ring-2 focus:ring-[#50175d]"
+          />
+          <button 
+            id="filterBtn" 
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-[#50175d] hover:text-white hover:bg-[#50175d] px-3 py-1 rounded-md transition"
+            title="Search"
+          >
+            🔍
+          </button>
+        </div>
+      </div>
+      
+      <div class="container mx-auto p-4">
+        <div id="user-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, temporibus voluptatem. Ducimus minus eos voluptatum aliquid. Similique, nulla omnis dolorum architecto eius maiores placeat molestias! Commodi animi quos, adipisci deserunt, voluptatum inventore alias aperiam consectetur quia, accusamus nesciunt labore dolorum doloribus illum nostrum fuga! Iusto quia, blanditiis beatae expedita facilis molestias velit, modi laboriosam odio molestiae maiores animi vero, tempore voluptatem id? Doloribus enim illo recusandae dolor? Tempora sequi dolores commodi tempore repellat quo numquam nam voluptatibus aliquam est? Veniam voluptatem nulla saepe quod illo commodi necessitatibus velit laudantium, non perspiciatis? Quas ad eveniet ipsa reprehenderit quae nemo doloremque quo minus quidem blanditiis eos quos harum ut quod nesciunt distinctio, error exercitationem. Eos harum voluptas cumque, delectus vitae at, suscipit aperiam quae sit quasi obcaecati minima labore voluptate sunt dolore rerum nihil laborum quos! Ratione incidunt accusamus sapiente est consequatur hic deleniti doloribus expedita alias porro quae officia beatae corporis vitae aliquid aliquam animi soluta voluptates, labore necessitatibus ipsa. Facere omnis, ipsa possimus corrupti architecto, corporis at voluptate ab minima itaque ipsam qui eligendi ea quae delectus rem. A, amet? Veniam, doloribus tempore. Dicta quam ipsa sunt quisquam omnis atque voluptas nulla impedit iusto nisi reprehenderit laboriosam nam repellat porro, minus beatae illum totam dolores. Expedita harum labore fugit dignissimos soluta. Facilis pariatur cum eaque quas dolorum sint maxime accusamus voluptatem fugit error id, magni consequuntur cumque et laudantium, voluptatum enim dicta dolorem excepturi adipisci ullam aut saepe? Repellat magni, quos, vitae repellendus consectetur accusantium beatae impedit tenetur, minus excepturi dolore nulla praesentium. Maiores in tempora adipisci fugiat quasi eum iure corrupti voluptate eveniet deserunt! Aliquid, optio perferendis veniam architecto suscipit error doloribus natus, tempora pariatur tempore enim sed nostrum, soluta non! At enim magni harum id! Sapiente, placeat modi dolorem dolor ipsum error, eveniet maxime dicta ratione excepturi molestias eligendi mollitia expedita recusandae asperiores minima nobis ab illum voluptates. Animi obcaecati voluptates nesciunt exercitationem quis maxime, similique cum neque tempora dicta dignissimos optio rerum saepe, alias accusamus reiciendis amet recusandae architecto quaerat perspiciatis voluptatum culpa eligendi. Ratione, vel molestias at veritatis adipisci ab obcaecati distinctio provident aliquam ut omnis consequatur placeat unde cumque expedita et. Ex nisi corrupti ad eligendi quae ea pariatur, libero deleniti soluta velit voluptatum odit, sapiente asperiores suscipit nesciunt! Fugit eveniet, dolorum veniam in quam magnam nesciunt excepturi pariatur, magni, quo quas officiis suscipit? Voluptatem officiis ullam eum nobis modi, ipsum dolore ea natus earum atque cum et non, id, eos odio laboriosam perspiciatis consequatur sint cupiditate asperiores architecto nemo quisquam rem? Ipsam a odit inventore nulla totam voluptatum, deserunt ad, distinctio odio numquam nostrum amet! Doloribus nobis placeat vitae voluptate, laborum velit quaerat, corrupti nesciunt adipisci perferendis eveniet totam eum doloremque odit dignissimos laboriosam ducimus modi quidem ab? Deleniti, voluptatum inventore consequuntur cum veniam, consectetur magnam sed numquam iure at debitis aliquam, corrupti ut praesentium similique. Quod nostrum itaque quis consequatur voluptate incidunt suscipit fugiat laboriosam quae sequi, minus explicabo enim debitis sint officia ad neque similique iste, sit animi aut, ullam aspernatur quia rerum. Eveniet quaerat dolores debitis. Cum obcaecati molestiae quas a assumenda exercitationem velit animi molestias possimus saepe enim dolorem ea, tempore cupiditate amet ab impedit odio beatae ratione harum! Odio voluptatibus sunt soluta ducimus et fugit qui ratione tempore ab magnam distinctio mollitia hic quae quisquam tenetur rerum asperiores exercitationem, iure facere! Excepturi sed ea aliquid! Assumenda neque, accusamus repudiandae autem aliquam eius enim quia fugit deleniti nemo nam quas quos voluptatum veritatis non sint, omnis hic incidunt animi eaque voluptatibus? Corporis modi eligendi voluptas earum laudantium odit consectetur maxime maiores repellendus id autem distinctio tempora deserunt officia commodi enim, vitae reiciendis saepe repudiandae corrupti deleniti odio totam? Obcaecati excepturi magnam quod exercitationem perspiciatis nihil fuga, et hic maxime voluptatum libero voluptate non, ea laboriosam atque numquam assumenda autem veniam. Similique perspiciatis debitis ducimus nesciunt delectus harum. Beatae nesciunt aspernatur ipsum ipsa, quam illum optio ex laudantium minus harum odio molestias! Sed sint nemo dolorum harum unde quos impedit nobis totam facere veritatis reprehenderit eveniet animi aut fugit nisi voluptatibus, sit obcaecati! Distinctio, ipsam veritatis! Laboriosam, quo. Eveniet est nihil repellendus magni similique maiores amet eligendi, sit fugiat ab tempora deserunt doloremque dolores sint quas sed sapiente ipsa, ducimus nostrum quod corrupti, nulla architecto? Eligendi delectus fuga mollitia atque sunt? Repellat ab vel totam, rem iusto, hic mollitia natus distinctio culpa voluptatum autem officiis beatae. Quis sit obcaecati quas, rerum odio pariatur molestias non temporibus error facilis quidem aliquam tempore eum excepturi culpa iste possimus quo voluptas. Adipisci recusandae voluptas excepturi nesciunt, minima delectus quaerat, maxime rerum ducimus, voluptatum atque cumque! Corrupti consequuntur cumque quae beatae iure. Necessitatibus placeat quisquam excepturi et rerum totam veritatis quam ea? Ratione provident hic necessitatibus! Nostrum voluptate facere dolor ratione excepturi culpa omnis ipsam mollitia magni ullam fuga facilis doloremque rem id tempora, totam beatae molestiae provident officia voluptas commodi expedita suscipit quibusdam officiis. Eveniet repellat perferendis dignissimos, soluta blanditiis temporibus porro sed aperiam nostrum. Unde ratione assumenda, totam quo reprehenderit deserunt sapiente dicta iusto beatae eveniet, cum quaerat sed est possimus facere sit tempore harum repudiandae, neque dolores! Quas quidem porro possimus, veritatis totam quibusdam consequatur corrupti id sunt incidunt, quos illo qui fuga autem quod. Sed, in dignissimos omnis nulla iste vitae, ipsa cupiditate inventore, provident sapiente quos tempore culpa eius alias ullam aliquid eum dolores odit odio libero explicabo facilis? Non aliquam alias saepe reiciendis dolorem quia optio laudantium beatae quae reprehenderit, temporibus expedita a. Mollitia autem tempore modi praesentium molestias amet laudantium facere voluptas quas fuga nam, vitae ad illum provident consequatur doloribus, eveniet repellat eaque distinctio molestiae qui iure at incidunt reiciendis! Perspiciatis excepturi dolorem perferendis ducimus id pariatur laudantium assumenda mollitia libero doloribus nostrum sapiente, earum inventore eaque aperiam iste non tempore dolore numquam expedita porro sunt deleniti totam? Est totam nulla itaque quibusdam nam. At necessitatibus eius minus corporis cum eligendi doloremque molestiae officia amet, repellendus quo molestias et ut perferendis. Non sapiente numquam incidunt exercitationem accusantium odit quia magni nostrum iure nesciunt! Perspiciatis ab autem totam.
+      </div>
+      
+    </div>
+  </div>
+
+  <!--add questions Popup Form -->
+  <div id="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h3 class="text-lg text-[#50175d] font-semibold mb-4">Add Question</h3>
+  
+      <!-- Buttons for category -->
+      <div class="flex gap-4 mb-4">
+        <button id="mcqBtn" class="px-4 py-2 bg-[#50175d] text-white rounded">MCQ</button>
+        <button id="theoryBtn" class="px-4 py-2 bg-gray-200 text-black rounded">Theory</button>
+      </div>
+  
+      <form id="questionForm" class="space-y-3">
+        <!-- Common -->
+         
+        <input type="text" name="question" placeholder="Enter Question" class="w-full px-3 mb-4 py-2 border rounded" />
+  
+        <!-- MCQ Fields -->
+        <div id="mcqFields">
+          <input type="text" name="option1" placeholder="Option 1" class="w-full px-3 py-2 my-1 border rounded" />
+          <input type="text" name="option2" placeholder="Option 2" class="w-full px-3 py-2 my-1 border rounded" />
+          <input type="text" name="option3" placeholder="Option 3" class="w-full px-3 py-2 my-1 border rounded" />
+          <input type="text" name="option4" placeholder="Option 4" class="w-full px-3 py-2 my-1 border rounded" />
+          <input type="text" name="answer" placeholder="Correct Answer" class="w-full px-3 mt-5 py-2 border rounded" />
+        </div>
+  
+        <!-- Buttons -->
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" onclick="togglePopup(false)" class="px-4 py-2 bg-[#8e20f5] text-white rounded">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+   
+<!-- Edit Modal -->
+<div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <h3 class="text-lg text-[#50175d] font-semibold mb-4">Edit Question</h3>
+    <form id="editForm" class="space-y-3">
+      <!-- Hidden input for question ID -->
+      <input type="hidden" id="editId" name="id">
+      
+      <label for="editQuestion" class="block mt-3 mb-1 text-sm font-medium text-gray-700">Question</label>
+      <input type="text" id="editQuestion" name="question" class="w-full px-3 py-2 text-gray-600 border rounded" required />
+      
+      <label class="block mt-3 mb-1 text-sm font-medium text-gray-700">Option 1 to 4</label>
+      <input type="text" id="editOption1" name="option1" class="w-full px-3 py-2 text-gray-600 border rounded" required />
+      <input type="text" id="editOption2" name="option2" class="w-full px-3 py-2 text-gray-600 border rounded" required />
+      <input type="text" id="editOption3" name="option3" class="w-full px-3 py-2 text-gray-600 border rounded" required />
+      <input type="text" id="editOption4" name="option4" class="w-full px-3 py-2 text-gray-600 border rounded" required />
+      
+      <label for="editAnswer" class="block mt-3 mb-1 text-sm font-medium text-gray-700">Correct Answer</label>
+      <input type="text" id="editAnswer" name="answer" class="w-full px-3 py-2 text-gray-600 border rounded" required />
+      
+
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-[#8e20f5] text-white rounded">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- ✅ Duration Modal -->
+<div id="durationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <h3 id="modalTitle" class="text-lg text-[#50175d] font-semibold mb-4">Add Duration</h3>
+    <form id="durationForm" class="space-y-4">
+      <label for="durationInput">Enter Duration (in minutes)</label>
+      <input type="text" id="durationInput" name="duration" class="w-full px-3 py-2 border rounded" required />
+
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="closeDurationModal()" class="px-4 py-2 bg-[#8e20f5] text-white rounded">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Add this modal container in your HTML -->
+<div id="answersModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+  <div class="relative w-full max-w-[800px] h-full max-h-[500px]">
+    
+    <!-- Fixed Close Button (Top-right of modal box) -->
+    <button onclick="closeModal()" 
+            class="fixed z-50 text-2xl font-bold bg-orange-500 px-2 pb-1 rounded text-white hover:text-black"
+            style="top: calc(50% - 250px + 8px); right: calc(50% - 380px + 8px);">
+      &times;
+    </button>
+
+    <!-- Modal Content Box -->
+    <div class="bg-white p-6 rounded-lg w-full h-full overflow-auto custom-scrollbar">
+      <h3 id="studentNameInAnswersSheet" class="text-xl text-[#50175d] font-bold mb-4">Student Answers Sheet</h3>
+      <div id="answersContent"></div>
+      <button onclick="closeModal()" class="mt-4 bg-orange-500 text-white px-4 py-2 rounded">Close</button>
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- Script -->
+  <script>
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+        contents.forEach(c => c.classList.add('hidden'));
+        tabs.forEach(b => b.classList.remove('bg-[#50175d]', 'text-white'));
+        tabs.forEach(b => b.classList.add('bg-gray-300', 'text-black'));
+
+        document.getElementById(target).classList.remove('hidden');
+        btn.classList.add('bg-[#50175d]', 'text-white');
+        btn.classList.remove('bg-gray-300', 'text-black');
+      });
+    });
+
+    function togglePopup(show) {
+  const button = document.querySelector("button[onclick='togglePopup(true)']");
+  document.getElementById('popup').classList.toggle('hidden', !show);
+
+  if (show) {
+    button.style.backgroundColor = '#50175d'; // Set custom color directly
+    button.style.color = '#fff'; // Optional: white text
+  } else {
+    button.style.backgroundColor = 'rgb(209, 213, 219)'; // Tailwind's bg-gray-300
+    button.style.color = 'black';
+  }
+}
+
+  </script>
+
+
+<script>
+  let currentType = "mcq";
+document.getElementById("mcqBtn").addEventListener("click", () => {
+  currentType = "mcq";
+  document.getElementById("mcqFields").style.display = "block";
+
+  const mcqBtn = document.getElementById("mcqBtn");
+  const theoryBtn = document.getElementById("theoryBtn");
+
+  // Active button
+  mcqBtn.style.backgroundColor = "#50175d";
+  mcqBtn.style.color = "#ffffff";
+
+  // Inactive button
+  theoryBtn.style.backgroundColor = "#e5e7eb"; // Tailwind's bg-gray-200
+  theoryBtn.style.color = "#000000";
+});
+
+document.getElementById("theoryBtn").addEventListener("click", () => {
+  currentType = "theory";
+  document.getElementById("mcqFields").style.display = "none";
+
+  const mcqBtn = document.getElementById("mcqBtn");
+  const theoryBtn = document.getElementById("theoryBtn");
+
+  // Active button
+  theoryBtn.style.backgroundColor = "#50175d";
+  theoryBtn.style.color = "#ffffff";
+
+  // Inactive button
+  mcqBtn.style.backgroundColor = "#e5e7eb";
+  mcqBtn.style.color = "#000000";
+});
+
+// Submit Handler
+document.getElementById("questionForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+  const data = {};
+  formData.forEach((value, key) => (data[key] = value));
+
+
+  let apiUrl =
+    currentType === "mcq"
+      ? "http://localhost:5000/api/questions/add-mcq"
+      : "http://localhost:5000/api/questions/add-theory";
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Question added successfully!",
+        confirmButtonText: "OK",
+        timer: 10000,
+        timerProgressBar: true,
+      });
+      this.reset();
+      togglePopup(false);
+      loadQuestions(); // reload list
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: result.error || "Something went wrong.",
+        confirmButtonText: "OK",
+        timer: 10000,
+        timerProgressBar: true,
+      });
+    }
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Error!",
+      text: error.message,
+      confirmButtonText: "OK",
+      timer: 10000,
+      timerProgressBar: true,
+    });
+  }
+});
+</script>
+<script>
+  const apiUrl = "http://localhost:5000/api/questions";
+  const questionContainer = document.getElementById("questionContainer");
+  
+  const modal = document.getElementById("editModal");
+  function openEditModal(id) {
+    fetch(`${apiUrl}/all`)
+      .then(res => res.json())
+      .then(questions => {
+        const q = questions.find(q => q._id === id);
+        document.getElementById("editId").value = q._id;
+        document.getElementById("editQuestion").value = q.question;
+        document.getElementById("editOption1").value = q.option1;
+        document.getElementById("editOption2").value = q.option2;
+        document.getElementById("editOption3").value = q.option3;
+        document.getElementById("editOption4").value = q.option4;
+        document.getElementById("editAnswer").value = q.answer;
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      });
+  }
+  
+  function closeEditModal() {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  }
+  
+  document.getElementById("editForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const id = document.getElementById("editId").value;
+    const data = {
+      question: editQuestion.value,
+      option1: editOption1.value,
+      option2: editOption2.value,
+      option3: editOption3.value,
+      option4: editOption4.value,
+      answer: editAnswer.value
+    };
+    const res = await fetch(`${apiUrl}/update/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    const result = await res.json();
+    closeEditModal();
+    showAlert("Updated", result.message, "green");
+    loadQuestions();
+  });
+  
+  async function deleteQuestion(id) {
+    const res = await fetch(`${apiUrl}/delete/${id}`, { method: "DELETE" });
+    const result = await res.json();
+    showAlert("Deleted", result.message, "red");
+    loadQuestions();
+  }
+  
+  function showAlert(title, message, color) {
+    const alert = document.createElement("div");
+    alert.className = `fixed top-5 left-1/2 transform -translate-x-1/2 bg-${color}-100 text-${color}-800 px-6 py-3 rounded-lg shadow-md z-50 flex justify-between items-center space-x-4`;
+    alert.innerHTML = `
+      <div><strong>${title}</strong>: ${message}</div>
+      <button onclick="this.parentElement.remove()" class="text-sm font-bold px-2 py-1 bg-white border border-${color}-200 rounded">OK</button>
+    `;
+    document.body.appendChild(alert);
+    setTimeout(() => alert.remove(), 10000);
+  }
+  
+  async function loadQuestions(filter = "all", clickedBtn = null) {
+  // Set active class
+  const buttons = document.querySelectorAll(".filter-btn");
+  buttons.forEach(btn => btn.classList.remove("active"));
+  if (clickedBtn) clickedBtn.classList.add("active");
+
+  // Fetch and filter questions
+  const res = await fetch(`${apiUrl}/all`);
+  const questions = await res.json();
+  const questionContainer = document.getElementById("questionContainer");
+  questionContainer.innerHTML = "";
+
+  const filteredQuestions = filter === "all"
+    ? questions
+    : questions.filter(q => q.category === filter);
+
+  // Render questions...
+  filteredQuestions.forEach(q => {
+    const card = document.createElement("div");
+    card.className = "bg-white rounded-xl shadow-md p-4 border border-gray-200 mb-3";
+
+    let optionsHTML = "";
+    let answerHTML = "";
+    let buttonsHTML = `
+      <button onclick="deleteQuestion('${q._id}')" class="bg-[#e88888] text-white hover:bg-red-500 text-xs px-3 py-1 rounded-full">Delete</button>
+    `;
+
+    if (q.category === "mcq") {
+      optionsHTML = `
+        <ul class="space-y-1 text-gray-700 text-sm">
+          <li>A: ${q.option1}</li>
+          <li>B: ${q.option2}</li>
+          <li>C: ${q.option3}</li>
+          <li>D: ${q.option4}</li>
+        </ul>
+      `;
+      answerHTML = `<p class="mt-2 font-semibold text-sm">Correct Answer: <span class="text-green-600">${q.answer}</span></p>`;
+      buttonsHTML = `
+        <button onclick="openEditModal('${q._id}')" class="bg-[#c298ea] hover:bg-[#8e20f5] text-white text-xs px-3 py-1 rounded-full">Edit</button>
+        ${buttonsHTML}
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start mb-2">
+        <span class="text-sm font-semibold text-gray-500">ID: ${q._id}</span>
+        <div class="space-x-2">${buttonsHTML}</div>
+      </div>
+      <p class="font-semibold text-[#50175d] mb-2">${q.question}</p>
+      ${optionsHTML}
+      ${answerHTML}
+    `;
+
+    questionContainer.appendChild(card);
+  });
+}
+
+ 
+
+const defaultBtn = document.querySelector(".filter-btn.active");
+loadQuestions('all', defaultBtn);
+
+  </script>
+  
+
+  <script>
+    const container = document.getElementById("user-grid");
+
+// Modal handlers
+function closeModal() {
+  document.getElementById("answersModal").classList.add("hidden");
+  document.getElementById("answersContent").innerHTML = "";
+}
+
+function openModal(contentHTML) {
+  document.getElementById("answersContent").innerHTML = contentHTML;
+  document.getElementById("answersModal").classList.remove("hidden");
+}
+
+// Fetch all users
+async function fetchUsers() {
+  try {
+    const res = await fetch("http://localhost:5000/api/user/all-users");
+    const users = await res.json();
+    renderUsers(users);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+  }
+}
+
+// Render user cards
+function renderUsers(users) {
+  container.innerHTML = "";
+  users.forEach(user => {
+    const card = document.createElement("div");
+    card.className = "bg-white shadow-lg rounded-2xl p-6 border border-[#50175d]";
+
+    card.innerHTML = `
+      <div class="bg-[#c298ea] rounded-2xl p-3">
+        <h2 class="text-xl font-bold text-[#50175d] mb-2">${user.name}</h2>
+        <p class="text-sm  mb-1">Email:<strong class="text-[#50175d]"> ${user.email}</strong></p>
+        <p class="text-sm  mb-1">Phone:<strong class="text-[#50175d]"> ${user.phone}</strong></p>
+        <p class="text-sm  mb-1">Total Questions:<strong class="text-[#50175d]"> ${user.totalQuestions}</strong></p>
+        <p class="text-sm  mb-1">Total Attempt:<strong class="text-[#50175d]"> ${user.totalAttempt}</strong></p>
+      </div>
+      <hr class="my-3">
+      <div class="flex flex-wrap justify-center gap-3">
+  <!-- First two buttons side-by-side -->
+  <button class="bg-[#50175d] text-white py-2 px-4 rounded show-answers-btn">Answer Sheet</button>
+  <button class="bg-orange-500 text-white py-2 px-4 rounded check-result-btn">Check Result</button>
+
+  <!-- Third button on new line, centered -->
+  <div class="w-full flex justify-center">
+    <button class="bg-red-600 text-white py-2 px-4 rounded delete-btn">Delete</button>
+  </div>
+</div>
+
+    `;
+
+    // Delete
+    card.querySelector(".delete-btn").addEventListener("click", async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/user/delete-user?email=${user.email}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (res.ok) card.remove();
+        else alert(data.error || "Failed to delete user");
+      } catch (err) {
+        console.error("Error deleting user:", err);
+      }
+    });
+
+    // Show Answers
+    card.querySelector(".show-answers-btn").addEventListener("click", () => {
+  const answers = user.questionsWithAnswers || [];
+  if (answers.length === 0) return openModal("<p>No answers found for this user.</p>");
+
+  const html = answers.map((a, index) => {
+    const isTheory = (a.category || "").toLowerCase() === "theory";
+    return `
+      <div class="mb-4">
+        <p><strong>Q${index + 1}: ${a.question}</strong></p>
+        <p>Category: <span class="text-orange-500"><strong>${a.category}</strong></span></p>
+        ${!isTheory ? `<p>Correct Answer: <span class="text-green-600"><strong>${a.correctAnswer}</strong></span></p>` : ""}
+        <p>Student Answer: <span class="text-blue-600"><strong>${a.userAnswer}</strong></span></p>
+        <hr class="my-2" />
+      </div>
+    `;
+  }).join("");
+
+  openModal(html);
+});
+
+
+
+    const mcqQuestions = (user.questionsWithAnswers || []).filter(q => q.category.toLowerCase() === "mcq");
+
+let correctMCQ = 0;
+let incorrectMCQ = 0;
+
+mcqQuestions.forEach(q => {
+  const correct = (q.correctAnswer || "").trim().toLowerCase();
+  const userAns = (q.userAnswer || "").trim().toLowerCase();
+  if (correct && userAns) {
+    if (correct === userAns) {
+      correctMCQ++;
+    } else {
+      incorrectMCQ++;
+    }
+  }
+});
+
+
+    // Check Result (placeholder)
+    card.querySelector(".check-result-btn").addEventListener("click", async () => {
+  const theoryQuestions = (user.questionsWithAnswers || []).filter(
+    q => q.category.toLowerCase() === "theory"
+  ).map(q => ({
+    question: q.question,
+    answer: q.userAnswer
+  }));
+  console.log("Questions sent to AI for evaluation:", theoryQuestions);
+  if (theoryQuestions.length === 0) {
+    return openModal("<p>No theory questions found for this user.</p>");
+  }
+
+  try {
+    const aiResult = await fetch("http://localhost:5000/api/ai/check-theory-answers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ theoryAnswers: theoryQuestions })
+    });
+
+    const aiData = await aiResult.json();
+    console.log("AI Response:", aiData);
+
+    if (!aiData || !aiData.correctQuestions || !aiData.incorrectQuestions) {
+      return openModal(`<p class="text-red-600">AI Error: ${aiData.error || "Invalid response from server."}</p>`);
+    }
+
+    const renderAnswers = (answers, isCorrect) => {
+  return answers
+    .filter(a => a && a.question && a.answer)
+    .map((q, i) => `
+      <div class="mb-3 ${isCorrect ? 'bg-green-100' : 'bg-red-100'} p-3 rounded">
+        <p><strong>Q${i + 1}:</strong> ${q.question}</p>
+        <p><strong>Your Answer:</strong> ${q.answer}</p>
+      </div>
+    `)
+    .join("") || "<p>No answers</p>";
+};
+
+
+    // Including the feedback in the modal
+    const html = `
+  <h2 class="text-lg font-bold mb-4">AI Evaluation Result</h2>
+
+  <!-- Feedback -->
+  <p class="mb-2 font-semibold text-blue-700">📝 Feedback: ${aiData.feedback || 'No feedback provided.'}</p>
+
+  <!-- Correct Theory Answers -->
+  <p class="mb-2 font-semibold text-green-700">✅ Correct Theory Answers:</p>
+  ${renderAnswers(aiData.correctQuestions, true)}
+
+  <!-- Incorrect Theory Answers -->
+  <p class="mt-4 mb-2 font-semibold text-red-700">❌ Incorrect Theory Answers:</p>
+  ${renderAnswers(aiData.incorrectQuestions, false)}
+
+  <!-- MCQ Result -->
+  <h3 class="text-lg font-bold mt-6 mb-2 text-purple-700 border-t pt-4">📘 MCQ Result</h3>
+  <p class="mb-1 font-medium text-green-700">✅ Correct MCQs: ${correctMCQ}</p>
+  <p class="mb-1 font-medium text-red-700">❌ Incorrect MCQs: ${incorrectMCQ}</p>
+`;
+
+    openModal(html);
+
+  } catch (err) {
+    console.error("Error during AI evaluation:", err);
+    openModal("<p class='text-red-600'>Something went wrong while checking answers. Try again later.</p>");
+  }
+});
+
+
+
+    container.appendChild(card);
+  });
+}
+
+fetchUsers();
+
+
+    let existingDuration = null;
+  
+  async function fetchDuration() {
+    try {
+      const res = await fetch("http://localhost:5000/api/time/get");
+       
+      if (res.ok) {
+        const data = await res.json();
+        existingDuration = data.duration;
+        document.getElementById("durationBtn").textContent = "Update Duration";
+      } else {
+        document.getElementById("durationBtn").textContent = "Add Duration";
+      }
+    } catch (err) {
+      console.error("Fetch failed", err);
+      document.getElementById("durationBtn").textContent = "Add Duration";
+    }
+  }
+
+  function openDurationModal() {
+    const button = document.getElementById("durationBtn");
+    document.getElementById("durationModal").classList.remove("hidden");
+    document.getElementById("modalTitle").textContent = existingDuration ? "Update Duration" : "Add Duration";
+    document.getElementById("durationInput").value = existingDuration || "";
+    button.style.backgroundColor = '#50175d'; // Set custom color directly
+    button.style.color = '#fff'; // Optional: white text
+  }
+
+  function closeDurationModal() {
+    document.getElementById("durationModal").classList.add("hidden");
+    const button = document.getElementById("durationBtn");
+    button.style.backgroundColor = 'rgb(209, 213, 219)'; // Tailwind's bg-gray-300
+    button.style.color = 'black';
+  }
+
+  document.getElementById("durationForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const duration = document.getElementById("durationInput").value;
+
+    const url = existingDuration ? "http://localhost:5000/api/time/update" : "http://localhost:5000/api/time/add";
+    const method = existingDuration ? "PUT" : "POST";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ duration: Number(duration) })
+      });
+
+      
+      if (res.ok) {
+        showAlert("Updated", "Time Update Successfully", "green");
+        closeDurationModal();
+        fetchDuration(); // refresh button text
+      } else {
+        const data = await res.json();
+        alert(data.message || "Something went wrong");
+      }
+    } catch (err) {
+      console.error("Save failed", err);
+      alert("Error saving duration");
+    }
+  });
+
+  // ✅ Load button on page load
+  window.onload = fetchDuration;
+
+
+  let allUsers = [];
+
+async function fetchUsers() {
+  try {
+    const res = await fetch("http://localhost:5000/api/user/all-users");
+    const users = await res.json();
+    allUsers = users;
+    renderUsers(allUsers);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+  }
+}
+
+function applyFilter() {
+  const value = document.getElementById("filterInput").value.toLowerCase();
+  const filtered = allUsers.filter(user =>
+    user.name.toLowerCase().includes(value) ||
+    user.email.toLowerCase().includes(value) ||
+    user.phone.toLowerCase().includes(value)
+  );
+  renderUsers(filtered);
+}
+
+// 🔁 Input typing = live filter
+document.getElementById("filterInput").addEventListener("input", applyFilter);
+
+// 🔘 Button click = manual trigger
+document.getElementById("filterBtn").addEventListener("click", applyFilter);
+
+
+  </script>
+ 
+  
+
+
+</body>
+</html>

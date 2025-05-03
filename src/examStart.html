@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;         /* Disable text selection */
+            -webkit-user-select: none; /* For Safari */
+            -moz-user-select: none;    /* For Firefox */
+            -ms-user-select: none;     /* For Internet Explorer/Edge */
+        }
+body {
+  font-family: Arial, sans-serif;
+  background: #f3e8ff;
+  margin: 0;
+  /* padding: 20px; */
+  box-sizing: border-box;
+  /* height: 100vh; */
+  /* overflow: hidden; */
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 350px 1fr; /* sidebar, container, video */
+  gap: 20px;
+  height: 100vh;
+  max-width: 1200px !important;
+  margin: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+
+@media (max-width: 768px) {
+    .main-container{
+        grid-template-columns: 1fr !important;
+    }
+    .btn-sidebar{
+        width: 340px !important;
+        height: 230px !important;
+        margin-top: 200px !important;
+
+    }
+    .container{
+        height: 400px !important;
+        width: 300px !important;
+        margin: 30px auto 30px auto !important;
+
+    }
+    .to-corner {
+  top: 1.5rem !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  
+}
+
+}
+
+
+/* Sidebar scrollable, fixed height */
+.btn-sidebar {
+  display: flex;
+  justify-content: center; 
+  flex-wrap: wrap;
+  gap: 10px 10px;
+  margin: auto;
+  width: 250px;
+  background-color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 550px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Main exam container (non-scrollable, fixed width) */
+.container {
+  background: #fff;
+  padding: 20px;
+  width: 100%;
+  max-width: 700px !important;
+  min-width: 350px !important;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 550px;
+  margin: auto 0;
+}
+
+.container h1{
+    text-align: center;
+    margin: 10px 20px;
+}
+
+.container h3{
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.option {
+  margin: 10px 0;
+  padding: 10px;
+  margin: 10px;
+  background: #f3e8ff;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.option.selected {
+  background: #e5ddee;
+  border: 2px solid #50175d;
+}
+.option:hover{
+    background-color: #e5ddee;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.navigation button {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+#prevBtn{
+    background-color: #50175d ;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+#nextBtn{
+    background-color: #8e20f5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+#nextBtn:hover{
+    background-color: #8100f9;
+}
+#prevBtn:hover{
+    background-color: #460953 ;
+}
+#submitBtn {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+}
+#submitBtn:hover{
+    background: #136dce;
+}
+
+#timer {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: rgb(18, 127, 18);
+  padding: 10px 20px;
+  border-radius: 20px;
+  width: fit-content;
+  margin: auto;
+  transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+#timer.warning {
+  background-color: rgb(175, 37, 37);
+  animation: popup 0.7s infinite alternate;
+}
+
+@keyframes popup {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+
+#sidebar button {
+  padding: 8px;
+  width: 50px;
+  height: 50px;
+  border: 3px solid gray;
+  background: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#sidebar button.active {
+  background: #50175d;
+  color: white;
+}
+
+#sidebar button.attempted {
+  border: 3px solid rgb(53, 205, 46);
+  
+}
+/* Custom Scrollbar for Sidebar */
+.btn-sidebar::-webkit-scrollbar {
+  width: 6px; /* thinner scrollbar */
+}
+
+/* Track (background of scrollbar) */
+.btn-sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Thumb (actual draggable bar) */
+.btn-sidebar::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 10px;
+}
+
+/* On hover */
+.btn-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #0056b3;
+}
+
+/* Hide scrollbar arrows (top & bottom buttons) */
+.btn-sidebar::-webkit-scrollbar-button {
+  display: none;
+}
+.sidebar-info {
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 16px;
+  padding: 20px 10px;
+  color: white;
+ 
+  background: #50175d;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: left;
+}
+.sidebar-info p{
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+#total-questions, #attempted-questions{
+    color: #50175d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+ 
+
+/* Video styling */
+.camera-video {
+  position: fixed;
+  /* width: 300px; */
+  width: 300px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 1s ease;
+  z-index: 9999;
+}
+
+/* Initial center position */
+.center-start {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Final top-right corner */
+.to-corner {
+      top: 1.5rem ;
+      left: auto ;
+      right: 1.5rem ;
+      width: 160px ;
+      height: auto ;
+      transform: none ;
+    }
+    #alertBox {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: none;
+      width: 80%;
+      max-width: 800px;
+    }
+
+    .theory-answer {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      resize: vertical;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      outline: none;
+    }
+
+    .theory-answer:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+    </style>
+</head>
+<body oncontextmenu="return false">
+    <div class="main-container">
+
+        <!-- Sidebar Buttons -->
+        <div id="sidebar" class="btn-sidebar">
+            <div class="sidebar-info">
+                <p><strong>Total Questions:</strong> <span id="total-questions">0</span></p>
+                <p><strong>Attempted:</strong> <span id="attempted-questions">0</span></p>
+              </div>
+        </div>
+      
+        <!-- Main container -->
+        <div class="container">
+          <h1>Online MCQ Exam</h1>
+          <div id="timer">Time Left: 10:00</div>
+          <div id="question-container"></div>
+          <div class="navigation">
+            <button id="prevBtn" onclick="prevQuestion()"><i class="fa-solid fa-circle-left"></i> Previous</button>
+            <button id="nextBtn" onclick="nextQuestion()">Next <i class="fa-solid fa-circle-right"></i></button>
+          </div>
+          <button id="submitBtn" onclick="submitExam()">Submit Now</button>
+        </div>
+      
+      </div>
+
+
+
+
+
+      <div id="alertBox" class="alert alert-danger alert-dismissible fade show text-center fw-bold" role="alert">
+        <span id="alertMsg">Warning!</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="hideAlert()"></button>
+      </div>
+      <script>
+        // Assume questions array is defined
+        let questions = []; // Initially empty
+
+        async function fetchAndInitializeQuestions() {
+  try {
+    const res = await fetch("http://localhost:5000/api/questions/all");
+    const data = await res.json();
+
+    questions = data.map((q) => ({
+  question: `${q.question}`,
+  options: q.category === "mcq" ? [q.option1, q.option2, q.option3, q.option4] : [],
+  answer: q.answer,
+  category: q.category || "mcq", // default fallback
+}));
+
+    let storedShuffled = localStorage.getItem("shuffledQuestions");
+    let parsedStored = storedShuffled ? JSON.parse(storedShuffled) : null;
+
+    // Compare counts to decide whether to reshuffle
+    if (!parsedStored || parsedStored.length !== questions.length) {
+      shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+      localStorage.setItem("shuffledQuestions", JSON.stringify(shuffledQuestions));
+    } else {
+      shuffledQuestions = parsedStored;
+    }
+
+    renderQuestion(currentIndex);
+  } catch (err) {
+    console.error("Failed to load questions:", err);
+    alert("Failed to load questions. Please try again.");
+  }
+}
+
+
+// Load from backend
+fetchAndInitializeQuestions();
+
+    
+        let currentIndex = localStorage.getItem("currentIndex") ? parseInt(localStorage.getItem("currentIndex")) : 0;
+        let selectedAnswers = JSON.parse(localStorage.getItem("selectedAnswers")) || Array(25).fill(null);
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let attemptedCount = 0;
+        let countdown;
+        let isSubmitted = false;
+        const startTime = new Date();
+        let stream;
+    
+        // Check camera/mic permission
+        const permissionGiven = sessionStorage.getItem("cameraMicAllowed");
+        if (!permissionGiven) {
+            alert("⚠ Unauthorized access! Redirecting...");
+            window.location.href = "index.html";
+        } else {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(localStream => {
+                    stream = localStream;
+                    const video = document.createElement("video");
+                    video.autoplay = true;
+                    video.muted = true;
+                    video.playsInline = true;
+                    video.srcObject = stream;
+                    video.classList.add("camera-video", "center-start");
+                    const container = document.querySelector(".main-container");
+                    container.appendChild(video);
+                    setTimeout(() => {
+                        video.classList.remove("center-start");
+                        video.classList.add("to-corner");
+                    }, 1000);
+                });
+        }
+    
+        // Start Countdown Timer
+        function startCountdown(durationInMinutes) {
+            let storedTimeLeft = parseInt(localStorage.getItem("timeLeft"));
+            let timeLeft = !isNaN(storedTimeLeft) ? storedTimeLeft : durationInMinutes * 60;
+    
+            countdown = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                const timerEl = document.getElementById("timer");
+                timerEl.innerText = `Time Left: ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    
+                if (timeLeft <= 30) {
+                    timerEl.classList.add("warning");
+                }
+    
+                localStorage.setItem("timeLeft", timeLeft);
+                timeLeft--;
+    
+                if (timeLeft < 0 && !isSubmitted) {
+                    clearInterval(countdown);
+                    localStorage.removeItem("timeLeft");
+                    submitExam();
+                }
+            }, 1000);
+        }
+    
+        // Render Current Question
+        function renderQuestion(index) {
+  const container = document.getElementById("question-container");
+  const q = shuffledQuestions[index];
+  const category = q.category;
+
+  if (category === "theory") {
+    // 📝 Render Theory Question
+    const savedTextAnswer = selectedAnswers[index] || "";
+
+    container.innerHTML = `
+      <h3>Q${index + 1}: ${q.question}</h3>
+      <textarea 
+        class="theory-answer" 
+        placeholder="Type your answer here..." 
+        oninput="saveTheoryAnswer(${index}, this.value)"
+        rows="6"
+        style="width: 100%; padding: 10px; font-size: 16px;"
+      >${savedTextAnswer}</textarea>
+    `;
+  } else {
+    // ✅ Render MCQ as before
+    container.innerHTML = `
+      <h3>Q${index + 1}: ${q.question}</h3>
+      ${q.options.map((opt, i) => {
+        const selectedClass = selectedAnswers[index] === opt ? "selected" : "";
+        const label = String.fromCharCode(65 + i);
+        return `
+          <div class="option ${selectedClass}" onclick="selectOption(${index}, '${opt}')">
+            <strong>${label}.</strong> ${opt}
+          </div>
+        `;
+      }).join("")}
+    `;
+  }
+
+  document.getElementById("prevBtn").style.display = index === 0 ? "none" : "inline-block";
+  document.getElementById("nextBtn").style.display = index === shuffledQuestions.length - 1 ? "none" : "inline-block";
+  document.getElementById("submitBtn").style.display = index === shuffledQuestions.length - 1 ? "block" : "none";
+
+  renderSidebar();
+}
+
+    
+        // Render Sidebar
+        function renderSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            document.getElementById("total-questions").innerText = shuffledQuestions.length;
+            document.getElementById("attempted-questions").innerText = selectedAnswers.filter(ans => ans !== null).length;
+    
+            sidebar.querySelectorAll("button").forEach(btn => btn.remove());
+    
+            for (let i = 0; i < shuffledQuestions.length; i++) {
+                const btn = document.createElement("button");
+                btn.innerText = i + 1;
+                if (i === currentIndex) {
+                    btn.classList.add("active");
+                }
+                if (selectedAnswers[i]) {
+                    btn.classList.add("attempted");
+                }
+                btn.onclick = () => {
+                    currentIndex = i;
+                    localStorage.setItem("currentIndex", currentIndex);
+                    renderQuestion(currentIndex);
+                    renderSidebar();
+                };
+                sidebar.appendChild(btn);
+            }
+        }
+    
+        function saveTheoryAnswer(index, value) {
+  selectedAnswers[index] = value;
+  localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
+}
+
+        // Select Option for a Question
+        function selectOption(index, option) {
+            selectedAnswers[index] = option;
+            localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
+            renderQuestion(index);
+        }
+    
+        // Next/Previous Question Logic
+        function nextQuestion() {
+            if (currentIndex < shuffledQuestions.length - 1) {
+                currentIndex++;
+                localStorage.setItem("currentIndex", currentIndex);
+                renderQuestion(currentIndex);
+            }
+        }
+    
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                localStorage.setItem("currentIndex", currentIndex);
+                renderQuestion(currentIndex);
+            }
+        }
+    
+        // Submit Exam
+        function submitExam() {
+  if (isSubmitted) return;
+  isSubmitted = true;
+  clearInterval(countdown);
+
+  const endTime = new Date();
+  const startTimeStr = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const endTimeStr = endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const durationInMinutes = Math.round((endTime - startTime) / 60000);
+
+  const email = localStorage.getItem("userEmail");
+
+  const answersPayload = shuffledQuestions.map((q, i) => ({
+  question: q.question,
+  category: q.category,
+  correctAnswer: q.answer,
+  userAnswer: selectedAnswers[i]
+})).filter(ans => ans.userAnswer !== null && ans.userAnswer !== undefined && ans.userAnswer !== "");
+
+
+  const result = {
+    email,
+    totalQuestions: shuffledQuestions.length,
+    examDate: new Date().toISOString().split("T")[0],
+    startTime: startTimeStr,
+    endTime: endTimeStr,
+    duration: `${durationInMinutes} minutes`,
+    answersPayload
+  };
+
+  // Cleanup
+  localStorage.removeItem("currentIndex");
+  localStorage.removeItem("selectedAnswers");
+  localStorage.removeItem("shuffledQuestions");
+  localStorage.removeItem("timeLeft");
+  sessionStorage.removeItem("cameraMicAllowed");
+
+  fetch("http://localhost:5000/api/user/submit-exam", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(result),
+  })
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(err => { throw new Error(err.message || "Server Error"); });
+      }
+      return res.json();
+    })
+    .then(data => {
+      Swal.fire({
+        title: "Success!",
+        text: "Your exam has been submitted.",
+        icon: "success",
+        confirmButtonText: "OK"
+      }).then(() => {
+        stopMedia();
+        window.location.replace("congpage.html?examSubmitted=true");
+      });
+    })
+    .catch(error => {
+      Swal.fire({
+        title: "Submission Failed",
+        text: error.message || "Something went wrong. Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
+    });
+}
+
+
+    
+        // Stop Media
+        function stopMedia() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+                console.log("✅ Camera & Mic stopped");
+            } else {
+                console.log("⚠ No active media stream to stop");
+            }
+        }
+    
+        // Prevent multiple reloads
+        document.addEventListener('keydown', function(e) {
+            if (
+                e.key === 'F5' ||
+                (e.ctrlKey && e.key.toLowerCase() === 'r')
+            ) {
+                e.preventDefault();
+            }
+        });
+    
+        window.addEventListener("dragover", function(e) {
+            e.preventDefault();
+        });
+        window.addEventListener("drop", function(e) {
+            e.preventDefault();
+        });
+    
+        // Reload and show warning alert
+        let warningCount = 0;
+    
+        function showAlert(msg) {
+            const alertBox = document.getElementById("alertBox");
+            const alertMsg = document.getElementById("alertMsg");
+            alertMsg.innerText = msg;
+            alertBox.style.display = "block";
+            setTimeout(() => {
+                hideAlert();
+            }, 20000);
+        }
+    
+        function hideAlert() {
+            const alertBox = document.getElementById("alertBox");
+            alertBox.style.display = "none";
+        }
+    
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) {
+                warningCount++;
+                if (warningCount === 1) {
+                    showAlert("⚠ Warning 1: Please do not leave the exam page!");
+                } else if (warningCount === 2) {
+                    showAlert("⚠ Final Warning: Further attempts to go back will trigger automatic exam submission.");
+                } else if (warningCount === 3) {
+                    submitExam();
+                }
+            }
+        });
+    
+        // Disable developer tools
+        document.onkeydown = function (e) {
+            if (
+                e.key === "F12" ||
+                (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+                (e.ctrlKey && (e.key === "U" || e.key === "S"))
+            ) {
+                return false;
+            }
+        };
+    
+        // Prevent back navigation during exam
+        history.pushState(null, "", location.href);
+        history.pushState(null, "", location.href);
+    
+        window.addEventListener("popstate", function () {
+            history.pushState(null, "", location.href);
+            alert("⚠ You cannot go back during the exam.");
+        });
+    
+        // Force fullscreen
+        window.onload = function () {
+            const docEl = document.documentElement;
+            if (docEl.requestFullscreen) {
+                docEl.requestFullscreen();
+            } else if (docEl.mozRequestFullScreen) {
+                docEl.mozRequestFullScreen();
+            } else if (docEl.webkitRequestFullscreen) {
+                docEl.webkitRequestFullscreen();
+            } else if (docEl.msRequestFullscreen) {
+                docEl.msRequestFullscreen();
+            }
+        };
+    
+        // Initialize countdown and question rendering
+        async function getExamDurationAndStartCountdown() {
+  try {
+    const res = await fetch("http://localhost:5000/api/time/get");
+    if (res.ok) {
+      const data = await res.json();
+      const duration = Number(data.duration); // in minutes
+      startCountdown(duration);
+    } else {
+      console.warn("Using default duration due to failed API");
+      startCountdown(10); // fallback
+    }
+  } catch (err) {
+    console.error("Error fetching exam duration", err);
+    startCountdown(10); // fallback
+  }
+}
+
+// Call it instead of startCountdown(10)
+getExamDurationAndStartCountdown();
+
+        renderQuestion(currentIndex);
+    </script>
+   
+      <script>
+          //  <!-- desable developer tool CTRL+SHIFT+I -->
+        document.onkeydown = function (e) {
+          if (
+            e.key === "F12" ||
+            (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+            (e.ctrlKey && (e.key === "U" || e.key === "S"))
+          ) {
+            return false;
+          }
+        };
+      </script>
+<script>
+  // Push 2 dummy states into the browser history
+  history.pushState(null, "", location.href);
+  history.pushState(null, "", location.href);
+
+  window.addEventListener("popstate", function () {
+    history.pushState(null, "", location.href); // Prevent back
+    alert("⚠️ You cannot go back during the exam.");
+  });
+</script>
+<script>
+  window.onload = function () {
+    const docEl = document.documentElement;
+    if (docEl.requestFullscreen) {
+      docEl.requestFullscreen();
+    } else if (docEl.mozRequestFullScreen) { // Firefox
+      docEl.mozRequestFullScreen();
+    } else if (docEl.webkitRequestFullscreen) { // Chrome, Safari, Opera
+      docEl.webkitRequestFullscreen();
+    } else if (docEl.msRequestFullscreen) { // IE/Edge
+      docEl.msRequestFullscreen();
+    }
+  };
+</script>      
+      
+</body>
+</html>

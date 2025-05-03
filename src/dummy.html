@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>Document</title>
+    <style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-container {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Sidebar scrollable, fixed height */
+.btn-sidebar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 200px;
+  background-color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Main exam container (non-scrollable, fixed width) */
+.container {
+  background: #fff;
+  padding: 25px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  height: fit-content;
+  margin: auto 0;
+}
+
+h2 {
+  text-align: center;
+}
+
+.option {
+  margin: 10px 0;
+  padding: 10px;
+  background: #f1f1f1;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.option.selected {
+  background: #d1e7dd;
+  border: 2px solid green;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+#submitBtn {
+  display: block;
+  margin: 20px auto 0;
+  background: #007bff;
+  color: #fff;
+  border: none;
+}
+
+#timer {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: rgb(37, 193, 37);
+  padding: 10px 20px;
+  border-radius: 20px;
+  width: fit-content;
+  margin: auto;
+  transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+#timer.warning {
+  background-color: rgb(239, 60, 60);
+  animation: popup 0.7s infinite alternate;
+}
+
+@keyframes popup {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+
+#sidebar button {
+  padding: 8px;
+  width: 50px;
+  height: 50px;
+  border: 3px solid gray;
+  background: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#sidebar button.active {
+  background: #c0cbd6;
+  color: white;
+}
+
+#sidebar button.attempted {
+  border: 3px solid rgb(53, 205, 46);
+  
+}
+/* Custom Scrollbar for Sidebar */
+.btn-sidebar::-webkit-scrollbar {
+  width: 6px; /* thinner scrollbar */
+}
+
+/* Track (background of scrollbar) */
+.btn-sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Thumb (actual draggable bar) */
+.btn-sidebar::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 10px;
+}
+
+/* On hover */
+.btn-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #0056b3;
+}
+
+/* Hide scrollbar arrows (top & bottom buttons) */
+.btn-sidebar::-webkit-scrollbar-button {
+  display: none;
+}
+.sidebar-info {
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 14px;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: left;
+}
+
+    </style>
+</head>
+<body>
+    <div class="main-container">
+
+        <!-- Sidebar Buttons -->
+        <div id="sidebar" class="btn-sidebar">
+            <div class="sidebar-info">
+                <p><strong>Total Questions:</strong> <span id="total-questions">0</span></p>
+                <p><strong>Attempted:</strong> <span id="attempted-questions">0</span></p>
+              </div>
+        </div>
+      
+        <!-- Main container -->
+        <div class="container">
+          <h2>Online MCQ Exam</h2>
+          <div id="timer">Time Left: 10:00</div>
+          <div id="question-container"></div>
+          <div class="navigation">
+            <button id="prevBtn" onclick="prevQuestion()">Previous</button>
+            <button id="nextBtn" onclick="nextQuestion()">Next</button>
+          </div>
+          <button id="submitBtn" onclick="submitExam()">Submit</button>
+        </div>
+      
+      </div>
+      <script>
+         const questions = [
+  {
+    question: "Q1:- What is the capital of France?",
+    options: ["London", "Berlin", "Paris", "Rome"],
+    answer: "Paris",
+  },
+   
+  // ➕ Add more questions here (total 25)
+];
+
+ 
+
+// ... previous question array code
+
+let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+let currentIndex = 0;
+let selectedAnswers = Array(25).fill(null);
+let correctCount = 0;
+let incorrectCount = 0;
+let attemptedCount = 0;
+let countdown;
+let isSubmitted = false; // ✅ Prevent multiple API calls
+const startTime = new Date();
+
+function startCountdown(durationInMinutes) {
+  let timeLeft = durationInMinutes * 60;
+  countdown = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    const timerEl = document.getElementById("timer");
+    timerEl.innerText = `Time Left: ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+    // Change color and add animation when 30s left
+    if (timeLeft <= 30) {
+      timerEl.classList.add("warning");
+    }
+
+    timeLeft--;
+
+    if (timeLeft < 0 && !isSubmitted) {
+      clearInterval(countdown);
+      submitExam();
+    }
+  }, 1000);
+}
+
+function renderQuestion(index) {
+  const container = document.getElementById("question-container");
+  const q = shuffledQuestions[index];
+
+  container.innerHTML = `
+    <h3>Q${index + 1}: ${q.question}</h3>
+    ${q.options.map((opt, i) => {
+      const selectedClass = selectedAnswers[index] === opt ? "selected" : "";
+      const label = String.fromCharCode(65 + i); // A, B, C, D
+      return `
+        <div class="option ${selectedClass}" onclick="selectOption(${index}, '${opt}')">
+          <strong>${label}.</strong> ${opt}
+        </div>
+      `;
+    }).join("")}
+  `;
+
+  document.getElementById("prevBtn").style.display = index === 0 ? "none" : "inline-block";
+  document.getElementById("nextBtn").style.display = index === shuffledQuestions.length - 1 ? "none" : "inline-block";
+  document.getElementById("submitBtn").style.display = index === shuffledQuestions.length - 1 ? "block" : "none";
+
+  renderSidebar();
+}
+
+
+function renderSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  
+  // Count update
+  document.getElementById("total-questions").innerText = shuffledQuestions.length;
+  document.getElementById("attempted-questions").innerText = selectedAnswers.filter(ans => ans !== null).length;
+
+  // Remove old buttons before adding again
+  sidebar.querySelectorAll("button").forEach(btn => btn.remove());
+
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    const btn = document.createElement("button");
+    btn.innerText = i + 1;
+
+    if (i === currentIndex) {
+      btn.classList.add("active");
+    }
+
+    if (selectedAnswers[i]) {
+      btn.classList.add("attempted");
+    }
+
+    btn.onclick = () => {
+      currentIndex = i;
+      renderQuestion(currentIndex);
+      renderSidebar(); // Re-render sidebar to update highlight
+    };
+
+    sidebar.appendChild(btn);
+  }
+}
+
+
+function selectOption(index, option) {
+  selectedAnswers[index] = option;
+  renderQuestion(index);
+}
+
+function nextQuestion() {
+  if (currentIndex < shuffledQuestions.length - 1) {
+    currentIndex++;
+    renderQuestion(currentIndex);
+  }
+}
+
+function prevQuestion() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderQuestion(currentIndex);
+  }
+}
+
+function submitExam() {
+  if (isSubmitted) return; // ✅ Prevent multiple submissions
+  isSubmitted = true;
+  clearInterval(countdown);
+
+  const endTime = new Date();
+  correctCount = 0;
+  incorrectCount = 0;
+  attemptedCount = 0;
+
+  selectedAnswers.forEach((answer, idx) => {
+    if (answer) {
+      attemptedCount++;
+      if (answer === shuffledQuestions[idx].answer) {
+        correctCount++;
+      } else {
+        incorrectCount++;
+      }
+    }
+  });
+
+  const totalQuestions = shuffledQuestions.length;
+  const totalMarks = correctCount * 5;
+
+  const startTimeStr = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const endTimeStr = endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const durationInMinutes = Math.round((endTime - startTime) / 60000);
+
+  const email = localStorage.getItem("userEmail");
+
+  const result = {
+    email,
+    attempted: attemptedCount,
+    correct: correctCount,
+    incorrect: incorrectCount,
+    totalQuestions: totalQuestions,
+    totalMarks: totalMarks,
+    examDate: new Date().toISOString().split("T")[0],
+    startTime: startTimeStr,
+    endTime: endTimeStr,
+    duration: `${durationInMinutes} minutes`
+  };
+
+  fetch("http://localhost:5000/api/user/submit-exam", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(result),
+  })
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(err => { throw new Error(err.message || "Server Error"); });
+        console.log("hello");
+      }
+      return res.json();
+      console.log("byy");
+    })
+    .then(data => {
+      Swal.fire({
+        title: "Success!",
+        text: "Your exam has been submitted.",
+        icon: "success",
+        confirmButtonText: "OK"
+        
+      }).then(() => {
+        // window.location.href = "info.html";
+        console.log("jsjsj")
+        console.log(email)
+      });
+    })
+    .catch(error => {
+      Swal.fire({
+        title: "Submission Failed",
+        text: error.message || "Something went wrong. Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
+      console.log(error);
+    });
+}
+
+
+startCountdown(10); // ⏱ Start timer
+renderQuestion(currentIndex); // 🔄 Load first question
+      </script>
+</body>
+</html>
